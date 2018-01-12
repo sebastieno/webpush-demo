@@ -1,10 +1,12 @@
 <html>
 
-<head></head>
+<head>
+    <link href="style.css" rel="stylesheet">
+</head>
 
 <body>
     <div id="subscriptionInformations">
-        En attente de la permission pour les notifications push
+        Waiting for permission to received push notifications
     </div>
 
     <script>
@@ -22,15 +24,18 @@
                         });
                     })
                 } else {
-                    document.querySelector('#subscriptionInformations').textContent = 'Autorisation refusée :\'(';
+                    document.querySelector('#subscriptionInformations').textContent = 'Autorization denied :\'(';
                 }
             });
+        } else {
+            document.querySelector('#subscriptionInformations').innerHTML = `Sorry, your browser doesn't support <a href="https://www.caniuse.com/#search=service%20worker" target="_blank">service worker</a> or <a href="https://www.caniuse.com/#search=push%20api" target="_blank">push api</a> :\'(`;
         }
 
         function renderSubscriptionInformations(subscription) {
             subscription = JSON.parse(JSON.stringify(subscription));
             const nodeCommand = `node send-push.js --endpoint=${subscription.endpoint} --auth=${subscription.keys.auth} --p256dh=${subscription.keys.p256dh}`;
-            document.querySelector('#subscriptionInformations').innerHTML = `<table>
+            document.querySelector('#subscriptionInformations').innerHTML = `<h2>Subscription informations</h2>
+            <table>
                     <tr>
                         <td>Endpoint</td>
                         <td>${subscription.endpoint}</td>
@@ -44,7 +49,9 @@
                         <td>${subscription.keys.p256dh}</td>
                     </tr>
                 </table>
-                <div> Execute the following command from the /server folder to send a push notification '${nodeCommand}'`;
+                <h2>Send notification</h2>
+                <div>Execute the following command from the /server folder to send a push notification</div>
+                <div class='command'>${nodeCommand}</div>`;
         }
 
         function urlB64ToUint8Array(base64String) {
