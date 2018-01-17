@@ -9,8 +9,8 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('push', function (e) {
     console.log('push received');
 
-    const promise = self.registration.showNotification('Hello', {
-        body: 'Ca marche !!!'
+    const promise = self.registration.showNotification('Notification title', {
+        body: e.data.text()
     });
     e.waitUntil(promise);
 });

@@ -23,4 +23,4 @@ const pushSubscription = {
   }
 };
 
-webpush.sendNotification(pushSubscription, 'Your Push Payload Text');
+webpush.sendNotification(pushSubscription, 'Here a notification from the server');
